@@ -1,122 +1,369 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
-    background: #0e1116;
-    color: #fff;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: Arial, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  background: #006eff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: system-ui, sans-serif;
 }
 
-.card-container {
-    width: 340px;
+/* ===== main screen ===== */
+.logo {
+  width: 80px;
+  margin-bottom: 20px;
 }
+
+.header {
+  font-size: 48px;
+  font-weight: 800;
+  color: white;
+  margin: 0;
+}
+
+.subtitle {
+  color: rgba(255,255,255,0.9);
+  margin: 10px 0 40px;
+}
+
+.menu {
+  padding: 14px 36px;
+  border: none;
+  border-radius: 10px;
+  background: white;
+  color: #006eff;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ===== overlay ===== */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+}
+
+.overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  width: 340px;
+  text-align: center;
+  transform: scale(0.9);
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.overlay.active .modal {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* ===== sections ===== */
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.sections button {
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: #006eff;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.correct {
+  background: #28a745 !important;
+}
+
+.close {
+  background: none;
+  border: none;
+  color: #006eff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ===== TABS ===== */
+.tabs {
+  display: flex;
+  flex-direction: column; 
+  gap: 8px;
+  margin-bottom: 20px;
+  align-items: center; 
+}
+
+.tabs {
+  width: 100%;
+}
+
+.tabs button {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  background: #006eff;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tabs button.active {
+  background: #006eff;
+  color: white;
+}
+
+.tabs.hidden {
+  display: none;
+}
+
+
+#card-container {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;   /* по горизонтали */
+}
+
 
 .card {
+  position: relative;
+  width: 260px;
+  height: 200px;
+  perspective: 1000px;
+}
+
+.card > div {
+  position: absolute;
+  inset: 0;
+  background: #f1f1f19f;
+  border-radius: 16px;
+  padding: 20px;
+  box-sizing: border-box;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* front / back */
+.card .back {
+  transform: rotateY(180deg);
+}
+
+.card.flipped .front {
+  transform: rotateY(180deg);
+}
+
+.card.flipped .back {
+  transform: rotateY(0deg);
+}
+
+/* animation */
+.card .front,
+.card .back {
+  transition: transform 0.4s;
+}
+
+/* ===== buttons in card ===== */
+.card button {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* know / dont know */
+button[data-action="next"] {
+  background: #27c94d;
+  color: white;
+}
+
+button[data-action="dont"] {
+  background: #e63946;
+  color: white;
+}
+
+/* sound & flip */
+button[data-action="sound"] {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: none;
+  font-size: 18px;
+}
+
+button[data-action="flip"] {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  font-size: 18px;
+}
+
+/* hover */
+.card button:hover {
+  transform: scale(1.05);
+}
+
+.topics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 20px 0;
+  
+}
+
+.topic-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  
+}
+
+.topic-col h3 {
+  margin: 0 0 6px;
+  font-size: 16px;
+  color: #006eff;
+  
+}
+
+.topic-col button {
     width: 100%;
-    height: 240px;
-    perspective: 1000px;
-    margin-bottom: 20px;
-    position: relative;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  background: #006eff;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
 }
 
-.flip-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: #1f5eff;
-    border: none;
-    color: #fff;
-    font-size: 18px;
-    padding: 6px 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    z-index: 5;
-    transition: 0.2s;
+.modal {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.flip-btn:hover {
-    background: #1747c7;
+.topic-text ul {
+  padding-right: 25px;
+  display: inline-block;
+  text-align: center;
+  font-size: 14px;
 }
 
-.card-inner {
+.topic-text ul {
+  padding-left: 18px;
+  margin: 8px 0;
+}
+
+.formula {
+  background: #f1f4ff;
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.video iframe {
+  width: 100%;
+  height: 180px;
+  border: none;
+  border-radius: 12px;
+}
+
+/* ================== Responsive fix ================== */
+* { box-sizing: border-box; }
+
+img, iframe, video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Чтобы оверлей мог скроллиться на телефоне */
+.overlay {
+  padding: 16px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Модалка не фиксированной ширины, а под экран */
+.modal {
+  width: min(420px, 92vw);
+  max-height: 92vh;
+  overflow: auto;
+}
+
+/* Чуть аккуратнее кнопки и отступы */
+.sections button,
+.tabs button,
+.topic-col button {
+  width: 100%;
+}
+
+/* ====== Phone ====== */
+@media (max-width: 480px) {
+  body {
+    padding: 20px 16px;
+    justify-content: flex-start; /* вместо центра по вертикали */
+  }
+
+  .header {
+    font-size: 34px;
+    line-height: 1.1;
+    text-align: center;
+  }
+
+  .subtitle {
+    text-align: center;
+    margin: 10px 0 24px;
+  }
+
+  .menu {
     width: 100%;
-    height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.6s;
+    max-width: 360px;
+  }
+
+  /* Темы: вместо 3 колонок — 1 колонка */
+  .topics-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* Карточка слов — чуть резиновее */
+  .card {
+    width: min(320px, 92vw);
+  }
+
+  .video iframe {
+    height: 200px; /* чуть выше на мобиле, чтобы было комфортно */
+  }
 }
 
-.card-front,
-.card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    background: #1c1f2a;
-    border-radius: 18px;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.35);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 15px;
-}
-
-.card-front {
-    font-size: 2rem;
-}
-
-.card-back {
-    transform: rotateY(180deg);
-    font-size: 1.6rem;
-    color: #ffffff;
-}
-
-.card.show-back .card-inner {
-    transform: rotateY(180deg);
-}
-
-.buttons {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-}
-
-.btn {
-    padding: 12px 22px;
-    border: none;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.know {
-    background: #2ecc71;
-    color: #fff;
-}
-
-.dontknow {
-    background: #e74c3c;
-    color: #fff;
-}
-
-.btn:hover {
-    transform: scale(1.05);
-}
-
-/* Анимация появления */
-.fade {
-    animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
+/* ====== Tablet ====== */
+@media (max-width: 768px) {
+  .topics-grid {
+    grid-template-columns: 1fr 1fr;
+  }
 }
